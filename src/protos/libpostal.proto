@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package libpostal.api;
+option go_package = "./";
+
+service Parser{
+    rpc ParseAddress(ParseAddressRequest) returns (ParsedAddressResponse) {}
+}
+
+message ParseAddressRequest{
+    string address = 1;
+    string language = 2;
+    string country = 3;
+}
+
+message ParsedAddressResponse{
+    string world_region = 1; // currently only used for appending “West Indies” after the country name, a pattern frequently used in the English-speaking Caribbean e.g. “Jamaica, West Indies”
+    string country = 2; // ISO 3166
+    string country_region = 3; // informal subdivision of a country without any political status
+    string state = 4; // a first-level administrative division. Scotland, Northern Ireland, Wales, and England in the UK are mapped to "state" as well (convention used in OSM, GeoPlanet, etc.)
+    string state_district = 5; // usually a second-level administrative division or county.
+    string island = 6; // named islands e.g. "Maui"
+    string city = 7; // any human settlement including cities, towns, villages, hamlets, localities, etc.
+    string city_district = 8; //  these are usually boroughs or districts within a city that serve some official purpose e.g. "Brooklyn" or "Hackney" or "Bratislava IV"
+    string suburb = 9; // usually an unofficial neighborhood name like "Harlem", "South Bronx", or "Crown Heights"
+    string postcode = 10; // postal codes used for mail sorting
+    string po_box = 11; // post office box: typically found in non-physical (mail-only) addresses
+    string entrance = 12; // numbered/lettered entrance
+    string staircase = 13; // numbered/lettered staircase
+    string level = 14; // expressions indicating a floor number e.g. "3rd Floor", "Ground Floor", etc.
+    string unit = 15; // an apartment, unit, office, lot, or other secondary unit designator
+    string road = 16; //  street name(s)
+    string house_number = 17; 
+    string near = 18; // phrases like "in", "near", etc. used after a category phrase to help with parsing queries like "restaurants in Brooklyn"
+    string category = 19; // for category queries like "restaurants", etc.
+    string house = 20; // venue name e.g. "Brooklyn Academy of Music", and building names e.g. "Empire State Building"
+}
