@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package libpostal.api;
-option go_package = "./";
+option go_package = "github.com/joaoaab/libpostal-grpc/protos";
 
 service Parser{
     rpc ParseAddress(ParseAddressRequest) returns (ParsedAddressResponse) {}
