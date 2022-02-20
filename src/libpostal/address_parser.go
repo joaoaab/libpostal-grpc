@@ -1,6 +1,8 @@
 package libpostal
 
 import (
+	"fmt"
+
 	protos "github.com/joaoaab/libpostal-grpc/src/protos"
 	parser "github.com/openvenues/gopostal/parser"
 	"github.com/stoewer/go-strcase"
@@ -12,14 +14,11 @@ type AddressParserInput struct {
 	Language    string
 }
 
-func ParseAddress(input AddressParserInput, containsOptions bool) *protos.ParsedAddressResponse {
+func ParseAddress(input AddressParserInput) *protos.ParsedAddressResponse {
 	var parsedAddress []parser.ParsedComponent
-	if containsOptions {
-		parsedAddress = parser.ParseAddress(input.AddressLine)
-	} else {
-		var parserOptions = parser.ParserOptions{Language: input.Language, Country: input.Country}
-		parsedAddress = parser.ParseAddressOptions(input.AddressLine, parserOptions)
-	}
+	var parserOptions = parser.ParserOptions{Language: input.Language, Country: input.Country}
+
+	parsedAddress = parser.ParseAddressOptions(input.AddressLine, parserOptions)
 
 	return ToResponse(parsedAddress)
 }
@@ -29,6 +28,7 @@ func ToResponse(result []parser.ParsedComponent) *protos.ParsedAddressResponse {
 	for _, v := range result {
 		labelTokenMap[strcase.UpperCamelCase(v.Label)] = v.Value
 	}
+	fmt.Println()
 
 	return &protos.ParsedAddressResponse{
 		WorldRegion:   labelTokenMap["WorldRegion"],
