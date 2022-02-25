@@ -14,86 +14,122 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// ParserClient is the client API for Parser service.
+// AddressClient is the client API for Address service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ParserClient interface {
+type AddressClient interface {
 	ParseAddress(ctx context.Context, in *ParseAddressRequest, opts ...grpc.CallOption) (*ParsedAddressResponse, error)
+	ExpandAddress(ctx context.Context, in *ExpandAddressRequest, opts ...grpc.CallOption) (*ExpandedAddressResponse, error)
 }
 
-type parserClient struct {
+type addressClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewParserClient(cc grpc.ClientConnInterface) ParserClient {
-	return &parserClient{cc}
+func NewAddressClient(cc grpc.ClientConnInterface) AddressClient {
+	return &addressClient{cc}
 }
 
-func (c *parserClient) ParseAddress(ctx context.Context, in *ParseAddressRequest, opts ...grpc.CallOption) (*ParsedAddressResponse, error) {
+func (c *addressClient) ParseAddress(ctx context.Context, in *ParseAddressRequest, opts ...grpc.CallOption) (*ParsedAddressResponse, error) {
 	out := new(ParsedAddressResponse)
-	err := c.cc.Invoke(ctx, "/libpostal.api.Parser/ParseAddress", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/libpostal.api.Address/ParseAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ParserServer is the server API for Parser service.
-// All implementations must embed UnimplementedParserServer
+func (c *addressClient) ExpandAddress(ctx context.Context, in *ExpandAddressRequest, opts ...grpc.CallOption) (*ExpandedAddressResponse, error) {
+	out := new(ExpandedAddressResponse)
+	err := c.cc.Invoke(ctx, "/libpostal.api.Address/ExpandAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// AddressServer is the server API for Address service.
+// All implementations must embed UnimplementedAddressServer
 // for forward compatibility
-type ParserServer interface {
+type AddressServer interface {
 	ParseAddress(context.Context, *ParseAddressRequest) (*ParsedAddressResponse, error)
-	mustEmbedUnimplementedParserServer()
+	ExpandAddress(context.Context, *ExpandAddressRequest) (*ExpandedAddressResponse, error)
+	mustEmbedUnimplementedAddressServer()
 }
 
-// UnimplementedParserServer must be embedded to have forward compatible implementations.
-type UnimplementedParserServer struct {
+// UnimplementedAddressServer must be embedded to have forward compatible implementations.
+type UnimplementedAddressServer struct {
 }
 
-func (UnimplementedParserServer) ParseAddress(context.Context, *ParseAddressRequest) (*ParsedAddressResponse, error) {
+func (UnimplementedAddressServer) ParseAddress(context.Context, *ParseAddressRequest) (*ParsedAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ParseAddress not implemented")
 }
-func (UnimplementedParserServer) mustEmbedUnimplementedParserServer() {}
+func (UnimplementedAddressServer) ExpandAddress(context.Context, *ExpandAddressRequest) (*ExpandedAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExpandAddress not implemented")
+}
+func (UnimplementedAddressServer) mustEmbedUnimplementedAddressServer() {}
 
-// UnsafeParserServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ParserServer will
+// UnsafeAddressServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AddressServer will
 // result in compilation errors.
-type UnsafeParserServer interface {
-	mustEmbedUnimplementedParserServer()
+type UnsafeAddressServer interface {
+	mustEmbedUnimplementedAddressServer()
 }
 
-func RegisterParserServer(s grpc.ServiceRegistrar, srv ParserServer) {
-	s.RegisterService(&Parser_ServiceDesc, srv)
+func RegisterAddressServer(s grpc.ServiceRegistrar, srv AddressServer) {
+	s.RegisterService(&Address_ServiceDesc, srv)
 }
 
-func _Parser_ParseAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Address_ParseAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ParseAddressRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ParserServer).ParseAddress(ctx, in)
+		return srv.(AddressServer).ParseAddress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/libpostal.api.Parser/ParseAddress",
+		FullMethod: "/libpostal.api.Address/ParseAddress",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ParserServer).ParseAddress(ctx, req.(*ParseAddressRequest))
+		return srv.(AddressServer).ParseAddress(ctx, req.(*ParseAddressRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Parser_ServiceDesc is the grpc.ServiceDesc for Parser service.
+func _Address_ExpandAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExpandAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AddressServer).ExpandAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/libpostal.api.Address/ExpandAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AddressServer).ExpandAddress(ctx, req.(*ExpandAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Address_ServiceDesc is the grpc.ServiceDesc for Address service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Parser_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "libpostal.api.Parser",
-	HandlerType: (*ParserServer)(nil),
+var Address_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "libpostal.api.Address",
+	HandlerType: (*AddressServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "ParseAddress",
-			Handler:    _Parser_ParseAddress_Handler,
+			Handler:    _Address_ParseAddress_Handler,
+		},
+		{
+			MethodName: "ExpandAddress",
+			Handler:    _Address_ExpandAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

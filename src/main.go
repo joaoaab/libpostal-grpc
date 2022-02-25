@@ -14,9 +14,9 @@ import (
 func main() {
 	s := grpc.NewServer()
 
-	address_parser := server.NewParserServer()
+	address_parser := server.NewAddressServer()
 
-	protos.RegisterParserServer(s, address_parser)
+	protos.RegisterAddressServer(s, address_parser)
 	reflection.Register(s)
 
 	t1, err := net.Listen("tcp", "localhost:50051")

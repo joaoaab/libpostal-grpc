@@ -3,8 +3,9 @@ syntax = "proto3";
 package libpostal.api;
 option go_package = "github.com/joaoaab/libpostal-grpc/protos";
 
-service Parser{
+service Address{
     rpc ParseAddress(ParseAddressRequest) returns (ParsedAddressResponse) {}
+    rpc ExpandAddress(ExpandAddressRequest) returns (ExpandedAddressResponse) {}
 }
 
 message ParseAddressRequest{
@@ -34,4 +35,56 @@ message ParsedAddressResponse{
     string near = 18; // phrases like "in", "near", etc. used after a category phrase to help with parsing queries like "restaurants in Brooklyn"
     string category = 19; // for category queries like "restaurants", etc.
     string house = 20; // venue name e.g. "Brooklyn Academy of Music", and building names e.g. "Empire State Building"
+}
+
+message ExpandAddressRequest{
+    string address = 1;
+    ExpandOptions options = 2;
+}
+
+message ExpandedAddressResponse{
+    repeated string expanded_address = 1;
+}
+
+// the address_components flag is a bit set argument
+// you should set it using the following definitions:
+//#define LIBPOSTAL_ADDRESS_NONE 0
+//define LIBPOSTAL_ADDRESS_ANY (1 << 0)
+//define LIBPOSTAL_ADDRESS_NAME (1 << 1)
+//define LIBPOSTAL_ADDRESS_HOUSE_NUMBER (1 << 2)
+//define LIBPOSTAL_ADDRESS_STREET (1 << 3)
+//define LIBPOSTAL_ADDRESS_UNIT (1 << 4)
+//define LIBPOSTAL_ADDRESS_LEVEL (1 << 5)
+//define LIBPOSTAL_ADDRESS_STAIRCASE (1 << 6)
+//define LIBPOSTAL_ADDRESS_ENTRANCE (1 << 7)
+//define LIBPOSTAL_ADDRESS_CATEGORY (1 << 8)
+//define LIBPOSTAL_ADDRESS_NEAR (1 << 9)
+//define LIBPOSTAL_ADDRESS_TOPONYM (1 << 13)
+//define LIBPOSTAL_ADDRESS_POSTAL_CODE (1 << 14)
+//define LIBPOSTAL_ADDRESS_PO_BOX (1 << 15)
+//define LIBPOSTAL_ADDRESS_ALL ((1 << 16) - 1)
+
+// if this message is not set, the api will use the default options
+// these options can be checked in the following link
+// https://github.com/openvenues/libpostal/blob/9c975972985b54491e756efd70e416f18ff97958/src/libpostal.c#L22
+message ExpandOptions{
+    repeated string languages = 1;
+    int32 address_components = 2;
+    bool latin_ascii = 3;
+    bool transliterate = 4;
+    bool strip_accents = 5;
+    bool decompose = 6;
+    bool lower_case = 7;
+    bool trim_string = 8;
+    bool replace_word_hyphens = 9;
+    bool delete_word_hyphens = 10;
+    bool replace_numeric_hyphens = 11;
+    bool delete_numeric_hyphens = 12;
+    bool split_alpha_from_numeric = 13;
+    bool delete_final_periods = 14;
+    bool delete_acronym_periods = 15;
+    bool drop_english_possessives = 16;
+    bool delete_apostrophes = 17;
+    bool expand_numex = 18;
+    bool roman_numerals = 19;
 }
