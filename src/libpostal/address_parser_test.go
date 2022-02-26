@@ -39,7 +39,7 @@ func TestParseAddress(t *testing.T) {
 		Road:        "rue du médecin-colonel calbairac",
 		HouseNumber: "17",
 	}
-	assert.Equal(t, response, expected)
+	assert.Equal(t, expected, response)
 }
 
 func TestParseAddressGivenAbsentOptions(t *testing.T) {
@@ -52,7 +52,7 @@ func TestParseAddressGivenAbsentOptions(t *testing.T) {
 		Road:        "rue du médecin-colonel calbairac",
 		HouseNumber: "17",
 	}
-	assert.Equal(t, response, expected)
+	assert.Equal(t, expected, response)
 }
 
 func TestToResponse(t *testing.T) {
@@ -101,12 +101,12 @@ func TestToResponse(t *testing.T) {
 		Category:      CATEGORY,
 		House:         HOUSE,
 	}
-	assert.Equal(t, response, expected)
+	assert.Equal(t, expected, response)
 }
 
 func TestToResponseGivenEmptyMap(t *testing.T) {
 	var parsedComponents []parser.ParsedComponent
 	var response = *ToResponse(parsedComponents)
 	var expected = protos.ParsedAddressResponse{}
-	assert.Equal(t, response, expected)
+	assert.Equal(t, expected, response)
 }
