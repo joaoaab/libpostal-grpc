@@ -18,4 +18,4 @@ Written in golang
 - [X] Add Expander endpoint
 - [X] Write tests
 - [X] Create benchmarks for routes.
-- [ ] Dockerfile for easy deployment
+- [X] Dockerfile for easy deployment
