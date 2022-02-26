@@ -10,6 +10,9 @@ Written in golang
 2. run this application with go run . inside the /src folder, it should run main.go that serves the api
 3. Use the proto to make grpc calls.
 
+## Tests
+`run go test ./... -v`
+
 ## Checklist
 - [X] Add Parser endpoint
 - [X] Add Expander endpoint
