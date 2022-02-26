@@ -12,6 +12,7 @@ Written in golang
 
 ## Checklist
 - [X] Add Parser endpoint
-- [ ] Add Expander endpoint
-- [ ] Write tests
+- [X] Add Expander endpoint
+- [X] Write tests
+- [X] Create benchmarks for routes.
 - [ ] Dockerfile for easy deployment
