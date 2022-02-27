@@ -14,7 +14,7 @@ Written in golang
 `run go test ./... -v`
 
 # Benchmarks
-Benchmarks using [ghz](ghz.sh) on a computer with a AMD ryzen 5 3600 with 3200mhz memory, the application was running on a docker container under a wsl2 environment.
+Benchmarks using [ghz](http://ghz.sh) on a computer with a AMD ryzen 5 3600 with 3200mhz memory, the application was running on a docker container under a wsl2 environment.
 
 ### Expand Parser
 Summary:<br />
