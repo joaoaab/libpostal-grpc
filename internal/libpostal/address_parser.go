@@ -1,7 +1,7 @@
 package libpostal
 
 import (
-	protos "github.com/joaoaab/libpostal-grpc/src/protos"
+	"github.com/joaoaab/libpostal-grpc/api/protos"
 	parser "github.com/openvenues/gopostal/parser"
 	"github.com/stoewer/go-strcase"
 )

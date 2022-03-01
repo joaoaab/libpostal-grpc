@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 
-	"github.com/joaoaab/libpostal-grpc/src/libpostal"
-	protos "github.com/joaoaab/libpostal-grpc/src/protos"
+	protos "github.com/joaoaab/libpostal-grpc/api/protos"
+	"github.com/joaoaab/libpostal-grpc/internal/libpostal"
 )
 
 type AddressServer struct {
@@ -16,17 +16,17 @@ func NewAddressServer() *AddressServer {
 }
 
 func (p AddressServer) ParseAddress(ctx context.Context, request *protos.ParseAddressRequest) (*protos.ParsedAddressResponse, error) {
-	var parserAddressInput = libpostal.AddressParserInput{
+	parserAddressInput := libpostal.AddressParserInput{
 		AddressLine: request.Address,
 		Language:    request.Language,
 		Country:     request.Country,
 	}
-	var parsedAddressResponse = libpostal.ParseAddress(parserAddressInput)
+	parsedAddressResponse := libpostal.ParseAddress(parserAddressInput)
 
 	return parsedAddressResponse, nil
 }
 
 func (p AddressServer) ExpandAddress(ctx context.Context, request *protos.ExpandAddressRequest) (*protos.ExpandedAddressResponse, error) {
-	var expandedAddress = libpostal.ExpandAddress(request)
+	expandedAddress := libpostal.ExpandAddress(request)
 	return expandedAddress, nil
 }

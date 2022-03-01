@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	protos "github.com/joaoaab/libpostal-grpc/src/protos"
-	"github.com/joaoaab/libpostal-grpc/src/server"
+	protos "github.com/joaoaab/libpostal-grpc/api/protos"
+	"github.com/joaoaab/libpostal-grpc/internal/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

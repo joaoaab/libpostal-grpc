@@ -1,7 +1,7 @@
 package libpostal
 
 import (
-	"github.com/joaoaab/libpostal-grpc/src/protos"
+	"github.com/joaoaab/libpostal-grpc/api/protos"
 	expand "github.com/openvenues/gopostal/expand"
 )
 
@@ -11,9 +11,9 @@ type AddressExpanderInput struct {
 }
 
 func ExpandAddress(proto *protos.ExpandAddressRequest) *protos.ExpandedAddressResponse {
-	var expandInput = fromProto(proto)
+	expandInput := fromProto(proto)
 
-	var expandedAddress = expand.ExpandAddressOptions(expandInput.AddressLine, expandInput.Options)
+	expandedAddress := expand.ExpandAddressOptions(expandInput.AddressLine, expandInput.Options)
 	return toProto(expandedAddress)
 }
 
