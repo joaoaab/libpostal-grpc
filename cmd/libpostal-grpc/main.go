@@ -21,6 +21,8 @@ func main() {
 	protos.RegisterAddressServer(s, address_parser)
 	reflection.Register(s)
 
+	fmt.Println("Starting Server")
+
 	tcpConnection, err := net.Listen("tcp", PORT)
 	if err != nil {
 		log.Fatal(fmt.Println("error starting tcp listener on port 50051", err))

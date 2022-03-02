@@ -30,9 +30,9 @@ const CATEGORY = "test_category"
 const HOUSE = "test_house"
 
 func TestParseAddress(t *testing.T) {
-	var input = AddressParserInput{AddressLine: "17 Rue du Médecin-Colonel Calbairac 31000 Toulouse France", Country: "FR", Language: "fr"}
-	var response = *ParseAddress(input)
-	var expected = protos.ParsedAddressResponse{
+	input := protos.ParseAddressRequest{Address: "17 Rue du Médecin-Colonel Calbairac 31000 Toulouse France", Country: "FR", Language: "fr"}
+	response := *ParseAddress(&input)
+	expected := protos.ParsedAddressResponse{
 		Country:     "france",
 		City:        "toulouse",
 		Postcode:    "31000",
@@ -43,8 +43,8 @@ func TestParseAddress(t *testing.T) {
 }
 
 func TestParseAddressGivenAbsentOptions(t *testing.T) {
-	var input = AddressParserInput{AddressLine: "17 Rue du Médecin-Colonel Calbairac 31000 Toulouse France"}
-	var response = *ParseAddress(input)
+	var input = protos.ParseAddressRequest{Address: "17 Rue du Médecin-Colonel Calbairac 31000 Toulouse France"}
+	var response = *ParseAddress(&input)
 	var expected = protos.ParsedAddressResponse{
 		Country:     "france",
 		City:        "toulouse",
@@ -56,7 +56,7 @@ func TestParseAddressGivenAbsentOptions(t *testing.T) {
 }
 
 func TestToResponse(t *testing.T) {
-	var parsedComponents = []parser.ParsedComponent{
+	parsedComponents := []parser.ParsedComponent{
 		{Label: "world_region", Value: WORLD_REGION},
 		{Label: "country", Value: COUNTRY},
 		{Label: "country_region", Value: COUNTRY_REGION},
@@ -78,8 +78,8 @@ func TestToResponse(t *testing.T) {
 		{Label: "category", Value: CATEGORY},
 		{Label: "house", Value: HOUSE},
 	}
-	var response = *ToResponse(parsedComponents)
-	var expected = protos.ParsedAddressResponse{
+	response := *ToResponse(parsedComponents)
+	expected := protos.ParsedAddressResponse{
 		WorldRegion:   WORLD_REGION,
 		Country:       COUNTRY,
 		CountryRegion: COUNTRY_REGION,
@@ -106,7 +106,7 @@ func TestToResponse(t *testing.T) {
 
 func TestToResponseGivenEmptyMap(t *testing.T) {
 	var parsedComponents []parser.ParsedComponent
-	var response = *ToResponse(parsedComponents)
-	var expected = protos.ParsedAddressResponse{}
+	response := *ToResponse(parsedComponents)
+	expected := protos.ParsedAddressResponse{}
 	assert.Equal(t, expected, response)
 }

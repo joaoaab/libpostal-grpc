@@ -12,10 +12,10 @@ type AddressParserInput struct {
 	Language    string
 }
 
-func ParseAddress(input AddressParserInput) *protos.ParsedAddressResponse {
-	var parserOptions = parser.ParserOptions{Language: input.Language, Country: input.Country}
+func ParseAddress(request *protos.ParseAddressRequest) *protos.ParsedAddressResponse {
+	parserOptions := parser.ParserOptions{Language: request.Language, Country: request.Country}
 
-	var parsedAddress = parser.ParseAddressOptions(input.AddressLine, parserOptions)
+	parsedAddress := parser.ParseAddressOptions(request.Address, parserOptions)
 
 	return ToResponse(parsedAddress)
 }

@@ -16,12 +16,7 @@ func NewAddressServer() *AddressServer {
 }
 
 func (p AddressServer) ParseAddress(ctx context.Context, request *protos.ParseAddressRequest) (*protos.ParsedAddressResponse, error) {
-	parserAddressInput := libpostal.AddressParserInput{
-		AddressLine: request.Address,
-		Language:    request.Language,
-		Country:     request.Country,
-	}
-	parsedAddressResponse := libpostal.ParseAddress(parserAddressInput)
+	parsedAddressResponse := libpostal.ParseAddress(request)
 
 	return parsedAddressResponse, nil
 }
