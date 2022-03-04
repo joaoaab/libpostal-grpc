@@ -7,21 +7,21 @@ import (
 	"github.com/joaoaab/libpostal-grpc/internal/libpostal"
 )
 
-type AddressServer struct {
+type Server struct {
 	protos.UnimplementedAddressServer
 }
 
-func NewAddressServer() *AddressServer {
-	return &AddressServer{}
+func NewAddressServer() protos.AddressServer {
+	return &Server{}
 }
 
-func (p AddressServer) ParseAddress(ctx context.Context, request *protos.ParseAddressRequest) (*protos.ParsedAddressResponse, error) {
+func (p Server) ParseAddress(ctx context.Context, request *protos.ParseAddressRequest) (*protos.ParsedAddressResponse, error) {
 	parsedAddressResponse := libpostal.ParseAddress(request)
 
 	return parsedAddressResponse, nil
 }
 
-func (p AddressServer) ExpandAddress(ctx context.Context, request *protos.ExpandAddressRequest) (*protos.ExpandedAddressResponse, error) {
+func (p Server) ExpandAddress(ctx context.Context, request *protos.ExpandAddressRequest) (*protos.ExpandedAddressResponse, error) {
 	expandedAddress := libpostal.ExpandAddress(request)
 	return expandedAddress, nil
 }
