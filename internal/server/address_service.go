@@ -17,7 +17,6 @@ func NewAddressServer() protos.AddressServer {
 
 func (p Server) ParseAddress(ctx context.Context, request *protos.ParseAddressRequest) (*protos.ParsedAddressResponse, error) {
 	parsedAddressResponse := libpostal.ParseAddress(request)
-
 	return parsedAddressResponse, nil
 }
 
