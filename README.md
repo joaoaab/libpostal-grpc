@@ -11,7 +11,13 @@ Written in golang
 3. Use the proto to make grpc calls.
 
 ## Tests
-`run go test ./... -v`
+You can run the test by using either:
+
+`go test ./... -v`
+
+or
+
+`make test`
 
 # Benchmarks
 Benchmarks using [ghz](http://ghz.sh) using 50 concurrent requests on a computer with a AMD ryzen 5 3600 with 3200mhz memory, the application was running on a docker container under a wsl2 environment.
